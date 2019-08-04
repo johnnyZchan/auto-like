@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自动点赞</title>
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
+    <script type="text/javascript" charset="UTF-8" src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="js/jquery-ui.min.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="js/main.js"></script>
+</head>
+<body>
+    <div>
+        <label style="vertical-align: top;">Cookie获取方式：</label>
+        <br/>
+        <img src="images/guide.png" width="1000">
+    </div>
+    <div style="margin-top: 20px">
+        <textarea id="cookie_input" placeholder="Cookie" style="width: 500px; height: 200px;"></textarea>
+    </div>
+    <div style="margin-top: 20px">
+        <button onclick="doLike();">点赞</button>
+    </div>
+</body>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+
+    function doLike() {
+        var cookie = $("#cookie_input").val();
+        if (cookie == null || cookie == "") {
+            alert("请输入Cookie");
+            return;
+        }
+
+        $.ajax({
+            url : "like" ,
+            type : "post",
+            data : {
+                "cookie": cookie
+            },
+            dataType: 'json',
+            success : function(result) {
+                if (result != null) {
+                    if (result.code == 0) {
+                        alert("点赞成功");
+                    } else {
+                        alert("点赞失败[" + result.message + "]");
+                    }
+                } else {
+                    alert("点赞失败");
+                }
+            },
+            error: function (data, status, e) {
+                console.log(e);
+                alert("点赞失败");
+            }
+        });
+    }
+</script>
+</html>
